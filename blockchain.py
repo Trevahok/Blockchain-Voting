@@ -1,3 +1,4 @@
+import random
 import hashlib, json 
 import requests
 from urllib.parse import urlparse
@@ -26,12 +27,11 @@ class Blockchain():
         self.chain.append(block)
 
         return block
-    def new_transaction(self, sender , recipient , amount):
+    def new_transaction(self, voter, party):
         self.current_transactions.append(
             {
-                'sender': sender,
-                'recipient': recipient,
-                'amount': amount,
+                'voter': voter,
+                'party': party,
             }
         )
         return self.last_block['index']+1
@@ -101,11 +101,6 @@ def mine():
     last_block = blockchain.last_block
     last_proof = last_block['proof']
     proof = blockchain.proof_of_work(last_proof)
-    blockchain.new_transaction(
-        sender='0', 
-        recipient=node_identifier,
-        amount=1,
-    )
     previous_hash = blockchain.hash(last_block)
     block = blockchain.new_block(proof, previous_hash)
 
@@ -122,11 +117,11 @@ def mine():
 @app.route('/transactions/new', methods=['POST'])
 def new_transaction():
     values = request.get_json()
-    required = ['sender', 'recipient', 'amount']
+    required = ['voter', 'party']
     if not all(k in values for k in required):
-        return 'missin values' , 400
+        return 'missing values' , 400
 
-    index = blockchain.new_transaction(values['sender'] , values['recipient'] , values['amount'])
+    index = blockchain.new_transaction(values['voter'] , values['party'])
     response = {'message' : f'Transaction will be added to Block {index} '}
     return jsonify(response) , 201
 
@@ -141,6 +136,7 @@ def full_chain():
 
 @app.route('/nodes/register', methods= ['POST'])
 def register_nodes():
+    print(request)
     values = request.get_json()
     nodes = values.get('nodes')
     if nodes is None:
@@ -170,4 +166,4 @@ def consensus():
 
     return jsonify(response), 200
 if __name__ == '__main__':
-    app.run(host='0.0.0.0', port=5000)
+    app.run(host='0.0.0.0', port=random.randint(5000,5009))
