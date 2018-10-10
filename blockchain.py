@@ -27,10 +27,10 @@ class Blockchain():
         self.chain.append(block)
 
         return block
-    def new_transaction(self, voter, party):
+    def new_transaction(self, voter_aid, party):
         self.current_transactions.append(
             {
-                'voter': voter,
+                'voter_aid': voter_aid,
                 'party': party,
             }
         )
@@ -117,11 +117,15 @@ def mine():
 @app.route('/transactions/new', methods=['POST'])
 def new_transaction():
     values = request.get_json()
-    required = ['voter', 'party']
+    required = ['voter_aid', 'party']
+    party_response = requests.get(f"http://localhost:5000/party/{values['party']}").json()
+    aid_response = requests.get(f"http://localhost:5000/aid/{values['aid']}").json()
     if not all(k in values for k in required):
         return 'missing values' , 400
+    if not party_response['valid'] or not aid_response['valid']:
+        return 'invalid aadhar id or party', 400
 
-    index = blockchain.new_transaction(values['voter'] , values['party'])
+    index = blockchain.new_transaction(values['voter_aid'] , values['party'])
     response = {'message' : f'Transaction will be added to Block {index} '}
     return jsonify(response) , 201
 
