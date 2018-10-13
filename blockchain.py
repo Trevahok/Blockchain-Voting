@@ -55,8 +55,15 @@ class Blockchain():
         guess = f'{last_proof}{proof}'.encode()
         guess_hash = hashlib.sha256(guess).hexdigest()
         return guess_hash[:4]== '0000'
-    def register_node(self , address):
+    def register_node(self , address, flag):
         parsed_url = urlparse(address)
+        if flag == 1:
+            self.trigger_flood_nodes(address)
+            for node in self.nodes:
+                requests.post(url=f'http://{address}/nodes/register', json={
+                    'nodes': [node],
+                    'flag': 0
+                })
         self.nodes.add(parsed_url.netloc)
     def valid_chain(self , chain):
         last_block = chain[0]
@@ -92,10 +99,12 @@ class Blockchain():
     def triggered_flood_chain(self):
         for node in self.nodes:
             response = requests.get(f'http://{node}/nodes/resolve')
-    def trigger_flood_nodes(self):
+    def trigger_flood_nodes(self,address):
+        print('flooding now ')
         for node in self.nodes:
             requests.post(url=f'http://{node}/nodes/register', json={
-                'nodes': list(self.nodes)
+                'nodes': [address] ,
+                'flag': 0
             })
             
 # flask api code here
@@ -167,10 +176,12 @@ def full_nodes():
 def register_nodes():
     values = request.get_json()
     nodes = values.get('nodes')
+    flag = values.get('flag')
+    print(flag)
     if nodes is None:
         return 'Error: Please supply a valid list of nodes' , 400
     for node in nodes:
-        blockchain.register_node(node)
+        blockchain.register_node(node, flag)
     response = {
         'message' : 'new nodes have been added', 
         'total_nodes': list(blockchain.nodes)
@@ -179,7 +190,6 @@ def register_nodes():
 
 @app.route('/nodes/resolve', methods=['GET'])
 def consensus():
-    blockchain.trigger_flood_nodes()
     replaced = blockchain.resolve_conflicts()
 
     if replaced:

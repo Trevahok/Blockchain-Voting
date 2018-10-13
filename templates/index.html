@@ -129,7 +129,7 @@
             destination = "http://" + $("#address").val() +":"+ $("#port").val();
             $("#loader").show();
             var source = $("#nodes").val();
-            var object = { "nodes" : [source]};
+            var object = { "nodes" : [source], "flag": 1};
             console.log(object);
             $.ajax({
                 type: "POST",
