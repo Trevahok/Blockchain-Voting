@@ -6,6 +6,7 @@ from textwrap import dedent
 from uuid import uuid4
 from flask import Flask , jsonify , request
 from time import time
+from flask_cors import CORS
 class Blockchain():
     def __init__(self):
         self.chain = []
@@ -91,17 +92,20 @@ class Blockchain():
         for node in self.nodes:
             for transaction in self.current_transactions:
                 try:
-                    header = {'Content-type': 'application/json'}
-                    requests.post(url=f'http://{node}/transactions/new',json=transaction, header=header)
+                    requests.post(url=f'http://{node}/transactions/new',json=transaction)
                 except Exception as e:
                     print(e)
 
-
+    def triggered_flood_chain(self):
+        for node in self.nodes:
+            response = requests.get(f'http://{node}/nodes/resolve')
+            
 # flask api code here
 
 app = Flask(__name__)
 node_identifier = str(uuid4()).replace('-', '')
 
+CORS(app)
 blockchain = Blockchain()
 
 @app.route('/mine', methods= ['GET'])
@@ -119,6 +123,7 @@ def mine():
         'proof': block['proof'],
         'previous_hash': block['previous_hash'],
     }
+    blockchain.triggered_flood_chain()
     return jsonify(response) , 200
 
 
@@ -159,7 +164,6 @@ def full_nodes():
     })
 @app.route('/nodes/register', methods= ['POST'])
 def register_nodes():
-    print(request)
     values = request.get_json()
     nodes = values.get('nodes')
     if nodes is None:
@@ -171,6 +175,7 @@ def register_nodes():
         'total_nodes': list(blockchain.nodes)
     }
     return jsonify(response) , 201
+
 
 @app.route('/nodes/resolve', methods=['GET'])
 def consensus():
@@ -188,5 +193,5 @@ def consensus():
         }
 
     return jsonify(response), 200
-if __name__ == '__main__':
-    app.run(host='0.0.0.0', port=random.randint(5001,5009))
+from sys import argv
+app.run(host='0.0.0.0', port=random.randint(5001,5009), debug=True)
