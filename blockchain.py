@@ -12,6 +12,7 @@ class Blockchain():
         self.chain = []
         self.current_transactions= []
         self.nodes = set()
+        self.ip =''
 
         #genesis block
         self.new_block(previous_hash=1, proof=100)
@@ -88,13 +89,6 @@ class Blockchain():
             self.chain = new_chain
             return True
         return False
-    def broadcast_transactions(self):
-        for node in self.nodes:
-            for transaction in self.current_transactions:
-                try:
-                    requests.post(url=f'http://{node}/transactions/new',json=transaction)
-                except Exception as e:
-                    print(e)
 
     def triggered_flood_chain(self):
         for node in self.nodes:
@@ -175,7 +169,6 @@ def register_nodes():
         'total_nodes': list(blockchain.nodes)
     }
     return jsonify(response) , 201
-
 
 @app.route('/nodes/resolve', methods=['GET'])
 def consensus():
