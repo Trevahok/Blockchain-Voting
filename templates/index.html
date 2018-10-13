@@ -2,6 +2,7 @@
 <html>
 <head>
     <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
 </head>
 <body class="w3-black w3-content">
@@ -12,6 +13,8 @@
         <textarea class="w3-input" readonly id="response"></textarea>
         <br>
         <button type="button" class="w3-button w3-teal" id="clearBtn">Clear</button>
+        <br>
+        <i class="fa fa-spinner w3-spin w3-center" style="font-size:64px" id="loader"></i>
         <br>
         <label>Address: </label>
         <input class="w3-input w3-border" type="text" id="address">
@@ -45,58 +48,66 @@
     </form>
 
     <script>
-        
+        $("#loader").hide();
         $("#clearBtn").click(function(){
             $("#response").val("");
         });
         $("#getTransBtn").click(function(){
             destination = "http://" + $("#address").val() +":"+ $("#port").val();
+            $("#loader").show();
             $.ajax({
                 type: "GET",
                 url:  destination + "/transactions",
                 success: function(response) {
                     console.log(response);
-                    $("#response").val(JSON.stringify(response));
+                    $("#response").val(JSON.stringify(response, null, "\t"));
+                    $("#loader").hide();
                 }
             });
         });
         $("#getNodesBtn").click(function(){
             destination = "http://" + $("#address").val() +":"+ $("#port").val();
+            $("#loader").show();
             $.ajax({
                 type: "GET",
                 url: destination + "/nodes",
                 success: function(response) {
                     console.log(response)
-                    $("#response").val(JSON.stringify(response));
+                    $("#response").val(JSON.stringify(response, null, "\t"));
+                    $("#loader").hide();
                 }
             });
         });
         $("#mineBtn").click(function() {
             destination = "http://" + $("#address").val() +":"+ $("#port").val();
+            $("#loader").show();
             $.ajax({
                 type: "GET",
                 url: destination + "/mine",
                 success: function(response) {
                     console.log(response);
-                    $("#response").val(JSON.stringify(response));
+                    $("#response").val(JSON.stringify(response, null, "\t"));
+                    $("#loader").hide();
                 }
             });
         });
         $("#getChainBtn").click(function(){
             destination = "http://" + $("#address").val() +":"+ $("#port").val();
+            $("#loader").show();
             $.ajax({
                 type: "GET",
                 url: destination + "/chain",
                 success: function(response) {
                     console.log(response)
-                    $("#response").val(JSON.stringify(response));
+                    $("#response").val(JSON.stringify(response, null, "\t"));
+                    $("#loader").hide();
                 }
             });
         });
 
         $("#addTransBtn").click(function(){
             destination = "http://" + $("#address").val() +":"+ $("#port").val();
-            
+            $("#loader").show();
             var party = $("#party").val();
             var voter_aid = $("#voter_aid").val();
             var object = { "party" : party, "voter_aid": voter_aid};
@@ -108,14 +119,15 @@
                 data: JSON.stringify(object),
                 success: function(response) {
                     console.log(response);
-                    $("#response").val(JSON.stringify(response));
+                    $("#response").val(JSON.stringify(response, null, "\t"));
+                    $("#loader").hide();
                 }
             });
         });
 
         $("#addNodesBtn").click(function(){
             destination = "http://" + $("#address").val() +":"+ $("#port").val();
-            
+            $("#loader").show();
             var source = $("#nodes").val();
             var object = { "nodes" : [source]};
             console.log(object);
@@ -126,7 +138,8 @@
                 data: JSON.stringify(object),
                 success: function(response) {
                     console.log(response);
-                    $("#response").val(JSON.stringify(response));
+                    $("#response").val(JSON.stringify(response, null, "\t"));
+                    $("#loader").hide();
                 }
             });
         });
