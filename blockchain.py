@@ -36,12 +36,10 @@ class Blockchain():
             }
         )
         return self.last_block['index']+1
-
     @staticmethod
     def hash(block):
         block_string = json.dumps(block , sort_keys=True).encode()
         return hashlib.sha256(block_string).hexdigest()
-
     @property
     def last_block(self):
         return self.chain[-1] 
@@ -50,7 +48,6 @@ class Blockchain():
         while self.valid_proof(last_proof, proof) is False:
             proof+=1
         return proof
-
     @staticmethod
     def valid_proof(last_proof, proof):
         guess = f'{last_proof}{proof}'.encode()
@@ -123,6 +120,15 @@ class Blockchain():
                     votes[i['party']]+=1
         return jsonify(votes)
             
+    def verify_vote(self, voter_aid):
+        for block in self.chain:
+            for i in block['transactions'] :
+                print(i)
+                if i['voter_aid']==str(voter_aid):
+                    return { 'party' : i['party'] }
+        else:
+            return {'error' : "No vote found"}
+
 # flask api code here
 
 app = Flask(__name__)
@@ -224,4 +230,10 @@ def consensus():
         }
 
     return jsonify(response), 200
+
+@app.route('/verify/<int:aid>', methods = ['GET'])
+def verify_vote(aid):
+    print(blockchain.verify_vote(aid))
+    return jsonify(blockchain.verify_vote(aid))
+
 app.run(host='0.0.0.0', port=random.randint(5001,5009), debug=True)
