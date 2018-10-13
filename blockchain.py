@@ -50,21 +50,24 @@ class Blockchain():
         while self.valid_proof(last_proof, proof) is False:
             proof+=1
         return proof
+
     @staticmethod
     def valid_proof(last_proof, proof):
         guess = f'{last_proof}{proof}'.encode()
         guess_hash = hashlib.sha256(guess).hexdigest()
         return guess_hash[:4]== '0000'
+
     def register_node(self , address, flag):
         parsed_url = urlparse(address)
         if flag == 1:
             self.trigger_flood_nodes(address)
-            for node in self.nodes:
-                requests.post(url=f'http://{address}/nodes/register', json={
-                    'nodes': [node],
-                    'flag': 0
-                })
+        for node in self.nodes:
+            requests.post(url=f'http://{parsed_url.netloc}/nodes/register', json={
+                'nodes': [node],
+                'flag': 0
+            })
         self.nodes.add(parsed_url.netloc)
+
     def valid_chain(self , chain):
         last_block = chain[0]
         for current_index in range(1 , len(chain)):
@@ -79,6 +82,7 @@ class Blockchain():
             last_block = block
         else:
             return True
+
     def resolve_conflicts(self):
         neighbours = self.nodes
         new_chain = None
@@ -99,6 +103,7 @@ class Blockchain():
     def triggered_flood_chain(self):
         for node in self.nodes:
             response = requests.get(f'http://{node}/nodes/resolve')
+
     def trigger_flood_nodes(self,address):
         print('flooding now ')
         for node in self.nodes:
