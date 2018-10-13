@@ -87,6 +87,14 @@ class Blockchain():
             self.chain = new_chain
             return True
         return False
+    def broadcast_transactions(self):
+        for node in self.nodes:
+            for transaction in self.current_transactions:
+                try:
+                    header = {'Content-type': 'application/json'}
+                    requests.post(url=f'http://{node}/transactions/new',json=transaction, header=header)
+                except Exception as e:
+                    print(e)
 
 
 # flask api code here
@@ -114,18 +122,24 @@ def mine():
     return jsonify(response) , 200
 
 
+@app.route('/transactions', methods=['GET'])
+def full_transactions():
+    return jsonify({
+        'transactions': blockchain.current_transactions
+    })
 @app.route('/transactions/new', methods=['POST'])
 def new_transaction():
     values = request.get_json()
     required = ['voter_aid', 'party']
     party_response = requests.get(f"http://localhost:5000/party/{values['party']}").json()
-    aid_response = requests.get(f"http://localhost:5000/aid/{values['aid']}").json()
+    aid_response = requests.get(f"http://localhost:5000/aids/{values['voter_aid']}").json()
     if not all(k in values for k in required):
         return 'missing values' , 400
     if not party_response['valid'] or not aid_response['valid']:
         return 'invalid aadhar id or party', 400
 
     index = blockchain.new_transaction(values['voter_aid'] , values['party'])
+    blockchain.broadcast_transactions()
     response = {'message' : f'Transaction will be added to Block {index} '}
     return jsonify(response) , 201
 
@@ -138,6 +152,11 @@ def full_chain():
 
     return jsonify(response), 200
 
+@app.route('/nodes', methods=['GET'])
+def full_nodes():
+    return jsonify({
+        'nodes': list(blockchain.nodes)
+    })
 @app.route('/nodes/register', methods= ['POST'])
 def register_nodes():
     print(request)
@@ -170,4 +189,4 @@ def consensus():
 
     return jsonify(response), 200
 if __name__ == '__main__':
-    app.run(host='0.0.0.0', port=random.randint(5000,5009))
+    app.run(host='0.0.0.0', port=random.randint(5001,5009))
