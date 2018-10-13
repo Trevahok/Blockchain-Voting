@@ -4,7 +4,7 @@ import requests
 from urllib.parse import urlparse
 from textwrap import dedent
 from uuid import uuid4
-from flask import Flask , jsonify , request
+from flask import Flask , jsonify , request, render_template
 from time import time
 from flask_cors import CORS
 class Blockchain():
@@ -107,6 +107,10 @@ node_identifier = str(uuid4()).replace('-', '')
 
 CORS(app)
 blockchain = Blockchain()
+
+@app.route("/")
+def index():
+    return render_template("index.html")
 
 @app.route('/mine', methods= ['GET'])
 def mine():
