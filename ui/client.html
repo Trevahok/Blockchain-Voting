@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Fury's Funhole</title>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+
+        <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+        <link rel="stylesheet" href="style.css">
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Lato">
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    </head>
+    <body>
+        <!-- Navbar (sit on top) -->
+        <div class="w3-top">
+            <div class="w3-bar" id="myNavbar">
+                <a class="w3-bar-item w3-button w3-hover-black w3-hide-medium w3-hide-large w3-right" href="javascript:void(0);" onclick="toggleFunction()" title="Toggle Navigation Menu">
+                <i class="fa fa-bars"></i>
+                </a>
+                <a href="#home" class="w3-bar-item w3-button w3-ripple w3-text-white w3-hover-teal"><i class="fa fa-home"></i> HOME</a>
+                <a href="#about" class="w3-bar-item w3-button w3-hide-small w3-ripple w3-text-white w3-hover-teal"><i class="fa fa-user"></i> ABOUT</a>
+                <a href="#portfolio" class="w3-bar-item w3-button w3-hide-small w3-ripple w3-text-white w3-hover-teal"><i class="fa fa-th"></i> PORTFOLIO</a>
+                <a href="#contact" class="w3-bar-item w3-button w3-hide-small w3-ripple w3-text-white w3-hover-teal"><i class="fa fa-envelope"></i> CONTACT</a>
+                <a href="resume.html" class="w3-bar-item w3-button w3-ripple w3-text-white w3-hover-teal"><i class="fa fa-briefcase"></i> RESUME</a>
+            </div>
+
+            <!-- Navbar on small screens -->
+            <div id="navDemo" class="w3-bar-block w3-white w3-hide w3-hide-large w3-hide-medium ">
+                <a href="#about" class="w3-bar-item w3-button w3-ripple" onclick="toggleFunction()">ABOUT</a>
+                <a href="#portfolio" class="w3-bar-item w3-button w3-ripple" onclick="toggleFunction()">PORTFOLIO</a>
+                <a href="#contact" class="w3-bar-item w3-button w3-ripple" onclick="toggleFunction()">CONTACT</a>
+            </div>
+        </div>
+
+        <!-- First Parallax Image with Logo Text -->
+        <div class="imgcontainer_parent w3-opacity-min" id = "home">
+            <div class="imgcontainer">
+                <div class="imgbox" id = "box1"></div>
+                <div class="imgbox" id = "box2"></div>
+                <div class="imgbox" id = "box3"></div>
+                
+            </div>
+            <div class="w3-display-middle" style="white-space:nowrap;">
+                <span class="w3-center w3-padding-large w3-black w3-xlarge w3-wide w3-animate-opacity">FURY'S FUNHOLE</span>
+            </div>
+        </div>
+
+        <!-- Container (About Section) -->
+        <div class="w3-content w3-container w3-padding-64" id="about">
+            <h3 class="w3-center w3-text-teal">ABOUT ME</h3>
+            <h4 class="w3-center w3-xlarge"><em>Eat! Sleep! Game! Repeat!</em></h4>
+            <h6 class="w3-center w3-large">
+            I became a gamer in my very early ages. Then I thought how awesome would it be to make them myself!
+            </h6>
+            <p class="w3-large">
+                Through gaming I also gained a huge passion for computers and programming in general,<br> so im pretty affluent in<em> C++ and Python.</em> 
+                <br>I also liked Web Development so I learnt CSS frameworks like <em>Bootstrap and W3</em>, then some <em>Django.</em>
+                <br>When it comes to Game Development, I prefer the <em>Unreal Engine 4, because, duh!, its the best!</em> and I've also dabbled around <em>Blender</em> to make some quick art assets. 
+            </p>
+            <div class="w3-row">
+                <div class="w3-col m6 w3-center w3-padding-large w3-card-4">
+                    <b><i class="fa fa-user w3-margin-right"></i>FurySwordXD ~ Fury Oniichan | Sainath Ganesh</b><br><br>
+                    <img src="assets/anime1.jpg" class="w3-round w3-image" alt="Photo of Me" width="500" height="333">
+                </div>
+                <!-- Hide this text on small devices -->
+                <div class="w3-col m6 w3-hide-small w3-padding-large w3-large">
+                    <p>My journey started out with all the classics like Age of Empires, Diablo, Warcraft. Now I'm into PUBG, League of Legends and Rocket League. Then I discovered a whole new world called Anime. Since then I've watched tons and tons of shows, binging them essentially, and now have become a <br><em>Connoissuer of Anime</em>.</p>
+                </div>
+            </div>
+
+            <p class="w3-large w3-center w3-padding-16 w3-text-teal">Im really good at:</p>
+
+            <div class="w3-card-4 w3-padding-large">
+                <p class="w3-wide"><i class="fa fa-gamepad"></i>Game Dev</p>
+                <div class="w3-light-grey">
+                    <div class="w3-container w3-padding-small w3-dark-grey w3-center" style="width:90%">95%</div>
+                </div>
+                <p class="w3-wide"><i class="fa fa-laptop"></i>Web Development</p>
+                <div class="w3-light-grey">
+                    <div class="w3-container w3-padding-small w3-dark-grey w3-center" style="width:85%">85%</div>
+                </div>
+                <p class="w3-wide"><i class="fa fa-desktop"></i>Programming</p>
+                <div class="w3-light-grey">
+                    <div class="w3-container w3-padding-small w3-dark-grey w3-center" style="width:90%">90%</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="w3-row w3-center w3-dark-grey w3-padding-16">
+            <div class="w3-quarter w3-section">
+                <span class="w3-xlarge"></span><br>
+            </div>
+        </div>
+
+        <!-- Second Parallax Image with Portfolio Text -->
+        <div class="bgimg-2 w3-display-container w3-opacity-min" id="portfolio">
+            <div class="w3-display-middle" style="white-space:nowrap;">
+                <span class="w3-xxlarge w3-black w3-text-white w3-wide w3-center w3-padding-large w3-animate-opacity">PORTFOLIO</span>
+            </div>
+        </div>
+
+        <!-- Container (Portfolio Section) -->
+        <div class="w3-content w3-container w3-padding-64" >
+            <h3 class="w3-center  w3-text-teal">MY WORK</h3>
+            <p class="w3-center w3-large"> 
+            Check out my <a href="resume.html"><em>resume</em></a><br>
+            Visit my <a href="https://www.youtube.com/user/sainathgood1/featured">YouTube</a> channel!<br>
+            Check out my <a href="https://github.com/FurySwordXD">github</a> repos<br> 
+            <em>A couple of recent projects listed down below...</em></p><br>
+            <div class="w3-card-4 w3-padding-large">
+                <iframe width="100%" height="500" src="https://www.youtube.com/embed/jV-TDk69qfE?rel=0" frameborder="0" allow="autoplay; encrypted-media" allowfullscreen></iframe>
+            </div>
+            <br><br>
+            <div class="w3-card-4 w3-padding-large">
+                <iframe width="100%" height="500" src="https://www.youtube.com/embed/hxa76CdrYfo?rel=0" frameborder="0" allow="autoplay; encrypted-media" allowfullscreen></iframe>
+            </div>
+            <br><br>
+        </div>
+
+        <div class="w3-row w3-center w3-dark-grey w3-padding-16">
+            <div class="w3-quarter w3-section">
+                <span class="w3-xlarge"></span><br>
+            </div>
+        </div>
+
+        <!-- Third Parallax Image with Portfolio Text -->
+        <div class="bgimg-3 w3-display-container w3-opacity-min" id="contact">
+            <div class="w3-display-middle">
+                <span class="w3-xxlarge w3-black w3-text-white w3-wide w3-center w3-padding-large w3-animate-opacity">CONTACT</span>
+            </div>
+        </div>
+
+        <!-- Container (Contact Section) -->
+        <div class="w3-content w3-container w3-padding-64">
+            <h3 class="w3-center  w3-text-teal">WHERE I WORK</h3>
+            <p class="w3-center"><em>So you wanna meet?</em></p>
+
+            <div class="w3-row w3-padding-32 w3-section">
+
+                <div class="w3-col m4 w3-panel">
+                    <div id="googleMap" class="w3-round-large w3-greyscale" style="width:100%;height:400px;"></div>
+                </div>
+                <div class="w3-col m8 w3-panel">
+                    <div class="w3-large w3-margin-bottom">
+                        <i class="fa fa-map-marker fa-fw w3-hover-text-black w3-xlarge w3-margin-right"></i> Chennai, TamilNadu<br>
+                        <i class="fa fa-phone fa-fw w3-hover-text-black w3-xlarge w3-margin-right"></i> Phone: +91 9884026065<br>
+                        <i class="fa fa-envelope fa-fw w3-hover-text-black w3-xlarge w3-margin-right"></i> Email: sainathganesh1@gmail.com<br>
+                    </div>
+                    <p>Swing by for a cup of <i class="fa fa-coffee"></i>, or leave me a note:</p>
+                    <form class="w3-card-4 w3-padding-small" action="mailto:sainath.g2017@vitstudent.ac.in" method="post" enctype="text/plain" target="_blank">
+                        <div class="w3-row-padding" style="margin:0 -16px 8px -16px">
+                            <div class="w3-half">
+                                <input class="w3-input w3-border" type="text" placeholder="Name" required name="Name">
+                            </div>
+                            <div class="w3-half">
+                                <input class="w3-input w3-border" type="text" placeholder="Email" required name="Email">
+                            </div>
+                        </div>
+                        <input class="w3-input w3-border" type="text" placeholder="Message" required name="Message">
+                        <button class="w3-button w3-black w3-right w3-section" type="submit">
+                            <i class="fa fa-paper-plane"></i> SEND MESSAGE
+                        </button>
+                    </form>
+                </div>
+            </div>
+        </div>
+
+        <!-- Footer -->
+        <footer class="w3-center w3-black w3-padding-64 w3-opacity w3-hover-opacity-off">
+            <a href="#home" class="w3-button"><i class="fa fa-arrow-up w3-margin-right"></i>To the top</a>
+            <div class="w3-xlarge w3-section">
+            <a href="https://www.facebook.com/FurySwordXD"><i class="fa fa-facebook-official w3-hover-opacity"></i></a>
+            <a href="https://www.instagram.com/furyswordxd"><i class="fa fa-instagram w3-hover-opacity"></i></a>
+            <i class="fa fa-snapchat w3-hover-opacity"></i>
+            <a href="https://in.pinterest.com/furyswordxd/"><i class="fa fa-pinterest-p w3-hover-opacity"></i></a>
+            <a href="https://twitter.com/FurySwordXD" ><i class="fa fa-twitter w3-hover-opacity"></i></a>
+            </div>
+            <p>Powered by <a href="https://www.w3schools.com/w3css/default.asp" title="W3.CSS" target="_blank" class="w3-hover-text-green">w3.css</a></p>
+        </footer>
+
+        <script src="index_js.js"></script>
+        <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBZp9GHQ1w3ojKZTNj2ZjGjL9xk-1HkCuo&callback=myMap"></script>
+    <div style='text-align: right;position: fixed;z-index:9999999;bottom: 0; width: 100%;cursor: pointer;line-height: 0;display:block !important;'><a title="000webhost logo" rel="nofollow" target="_blank" href="https://www.000webhost.com/?utm_source=000webhostapp&amp;utm_campaign=000_logo&amp;utm_campaign=ss-footer_logo&amp;utm_medium=000_logo&amp;utm_content=website"><img src="https://cdn.rawgit.com/000webhost/logo/e9bd13f7/footer-powered-by-000webhost-white2.png" alt="000webhost logo"></a></div></body>
+</html>
