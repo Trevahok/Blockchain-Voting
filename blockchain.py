@@ -61,11 +61,10 @@ class Blockchain():
         parsed_url = urlparse(address)
         if flag == 1:
             self.trigger_flood_nodes(address)
-        for node in self.nodes:
-            requests.post(url=f'http://{parsed_url.netloc}/nodes/register', json={
-                'nodes': [node],
-                'flag': 0
-            })
+        requests.post(url=f'http://{parsed_url.netloc}/nodes/register', json={
+            'nodes': list(self.nodes),
+            'flag': 0
+        })
         self.nodes.add(parsed_url.netloc)
 
     def valid_chain(self , chain):
