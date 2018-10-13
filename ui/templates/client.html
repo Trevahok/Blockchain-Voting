@@ -43,20 +43,40 @@
         <div class="w3-content w3-container w3-padding-64" id="about">
             <h3 class="w3-center w3-text-teal">ABOUT THE CHAIN</h3>
             <p class="w3-center">Immutable! Secure! Reliable!</p>
+
+            <form class="w3-content w3-container w3-padding-large w3-card-4">
+                <div id="voteVerify" class="w3-text-white"></div>
+                <label>Voter ID:</label>
+                <input id="checkVoteInput" class="w3-input w3-border-0 w3-text-white" style="background-color: #454545;" type="number">
+                <br>
+                <div class="w3-content w3-center">
+                    <button class="w3-button w3-black w3-hover-teal" type="button" id="checkVoteBtn">Check Vote</button>
+                    &nbsp;
+                    <button class="w3-button w3-black w3-hover-teal" type="button" id="clearBtn">Clear</button>
+                </div>
+            </form>
             <p class="w3-large w3-center w3-padding-16 w3-text-teal w3-wide">LIVE VOTING UPDATES:</p>
 
             <div class="w3-card-4 w3-padding-large">
-                <p class="w3-wide"><i class="fa fa-gamepad"></i>ADMK</p>
+                <p class="w3-wide"><i class="fa fa-gamepad"></i>BJP</p>
                 <div class="w3-light-grey">
-                    <div id="bjp" class="w3-container w3-padding-small w3-dark-grey w3-center">95%</div>
+                    <div id="bjp" class="w3-container w3-padding-small w3-dark-grey w3-center bar">95%</div>
                 </div>
-                <p class="w3-wide"><i class="fa fa-laptop"></i>DMK</p>
+                <p class="w3-wide"><i class="fa fa-laptop"></i>ADMK</p>
                 <div class="w3-light-grey">
-                    <div id="dmk" class="w3-container w3-padding-small w3-dark-grey w3-center">85%</div>
+                    <div id="admk" class="w3-container w3-padding-small w3-dark-grey w3-center bar">85%</div>
                 </div>
-                <p class="w3-wide"><i class="fa fa-desktop"></i>BJP</p>
+                <p class="w3-wide"><i class="fa fa-desktop"></i>DMK</p>
                 <div class="w3-light-grey">
-                    <div id="admk" class="w3-container w3-padding-small w3-dark-grey w3-center">90%</div>
+                    <div id="dmk" class="w3-container w3-padding-small w3-dark-grey w3-center bar">90%</div>
+                </div>
+                <p class="w3-wide"><i class="fa fa-desktop"></i>NCP</p>
+                <div class="w3-light-grey">
+                    <div id="ncp" class="w3-container w3-padding-small w3-dark-grey w3-center bar">90%</div>
+                </div>
+                <p class="w3-wide"><i class="fa fa-desktop"></i>DMDK</p>
+                <div class="w3-light-grey">
+                    <div id="dmdk" class="w3-container w3-padding-small w3-dark-grey w3-center bar">90%</div>
                 </div>
             </div>
         </div>
@@ -110,7 +130,7 @@
         <div class="w3-content w3-container w3-padding-64">
             <h3 class="w3-center  w3-text-teal">GET THE CHAIN</h3>
             <p class="w3-center"><em>View the entire blockchain information</em></p>
-            <textarea id="response" class="w3-input w3-border-0 w3-text-white" style="background-color: #454545;" readonly></textarea>
+            <textarea id="response" class="w3-input w3-border-0 w3-text-white" style="background-color: #454545;"></textarea>
             <br>
             <div class="w3-container w3-center">
                 <button type="button" class="w3-button w3-ripple w3-wide w3-black w3-ripple w3-hover-teal" id="getChainBtn">Grab</button>
@@ -124,7 +144,9 @@
         </footer>
 
         <script>
+
             window.onscroll = function() {myFunction()};
+
             function myFunction() {
                 var navbar = document.getElementById("myNavbar");
                 if (document.body.scrollTop > 100 || document.documentElement.scrollTop > 100) {
@@ -143,7 +165,23 @@
                     x.className = x.className.replace(" w3-show", "");
                 }
             }
-            
+
+            $("#checkVoteBtn").click(function(){
+                destination = "http://{{ipaddress}}:{{port}}";
+                $.ajax({
+                    type: "GET",
+                    url: destination + "/verify/" + $("#checkVoteInput").val(),
+                    success: function(response) {
+                        console.log(response['message']);
+                        alert(response['message']);
+                    }
+                });
+            });
+
+            $("#clearBtn").click(function(){
+                $("#voteVerify").html("");
+            });
+
             $("#getChainBtn").click(function(){
                 destination = "http://{{ipaddress}}:{{port}}";
                 $.ajax({
@@ -151,9 +189,11 @@
                     url: destination + "/chain",
                     success: function(response) {
                         console.log(response);
+                        $("#response").val(JSON.stringify(response, null, "\t"));
                     }
                 });
             });
+
             $("#voteBtn").click(function(){
                 destination = "http://{{ipaddress}}:{{port}}";
                 var party = $("#party").val();
@@ -167,7 +207,6 @@
                     data: JSON.stringify(object),
                     success: function(response) {
                         console.log(response);
-                        $("#response").val(JSON.stringify(response, null, "\t"));
                     }
                 });
             });
@@ -186,16 +225,26 @@
                             totalVotes += response[key];
                         });
                         Object.keys(response).forEach(function(key) {
-                            $("#"+key).text(response[key]);
                             percent = (response[key]/totalVotes*100).toString()+"%";
                             console.log(percent);
-                            $("#"+key).attr({"width":percent});
+                            $("#"+key).text(percent);
+                            $("#"+key).css("width",percent);
                         });
+                        setTimeout(liveUpdate(), 5000);
+                    },
+                    error: function() {
+                        setTimeout(liveUpdate(), 5000);
                     }
                 });
             }
-
-            liveUpdate();
+            
+            $(document).ready(function()
+            {
+                $(".bar").css("width","0%");
+                $(".bar").text("");
+                liveUpdate();
+            });
+            
         </script>
 
     <div style='text-align: right;position: fixed;z-index:9999999;bottom: 0; width: 100%;cursor: pointer;line-height: 0;display:block !important;'><a title="000webhost logo" rel="nofollow" target="_blank" href="https://www.000webhost.com/?utm_source=000webhostapp&amp;utm_campaign=000_logo&amp;utm_campaign=ss-footer_logo&amp;utm_medium=000_logo&amp;utm_content=website"><img src="https://cdn.rawgit.com/000webhost/logo/e9bd13f7/footer-powered-by-000webhost-white2.png" alt="000webhost logo"></a></div>
