@@ -12,7 +12,6 @@ class Blockchain():
         self.chain = []
         self.current_transactions= []
         self.nodes = set()
-        self.ip =''
 
         #genesis block
         self.new_block(previous_hash=1, proof=100)
@@ -93,6 +92,11 @@ class Blockchain():
     def triggered_flood_chain(self):
         for node in self.nodes:
             response = requests.get(f'http://{node}/nodes/resolve')
+    def trigger_flood_nodes(self):
+        for node in self.nodes:
+            requests.post(url=f'http://{node}/nodes/register', json={
+                'nodes': list(self.nodes)
+            })
             
 # flask api code here
 
@@ -142,7 +146,6 @@ def new_transaction():
         return 'invalid aadhar id or party', 400
 
     index = blockchain.new_transaction(values['voter_aid'] , values['party'])
-    blockchain.broadcast_transactions()
     response = {'message' : f'Transaction will be added to Block {index} '}
     return jsonify(response) , 201
 
@@ -176,6 +179,7 @@ def register_nodes():
 
 @app.route('/nodes/resolve', methods=['GET'])
 def consensus():
+    blockchain.trigger_flood_nodes()
     replaced = blockchain.resolve_conflicts()
 
     if replaced:
@@ -190,5 +194,4 @@ def consensus():
         }
 
     return jsonify(response), 200
-from sys import argv
 app.run(host='0.0.0.0', port=random.randint(5001,5009), debug=True)
