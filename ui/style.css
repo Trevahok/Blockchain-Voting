@@ -19,19 +19,19 @@ body, html {
 
 /* First image (Logo. Full height) */
 .bgimg-1 {
-    background-image: url("http://adufc.org.br/wp-content/uploads/2018/01/Balot-Box-V2.jpeg");
+    background-image: url("https://blog.equinix.com/wp-content/uploads/2017/10/blockchain.jpg");
     min-height: 100%;
 }
 
-/* Second image (Portfolio) */
+/* Second image (Vote) */
 .bgimg-2 {
-    background-image: url("http://adufc.org.br/wp-content/uploads/2018/01/Balot-Box-V2.jpeg");
+    background-image: url("https://d2v9y0dukr6mq2.cloudfront.net/video/thumbnail/N8fwUuSulijjlinqs/various-vote-hand-to-internet-online-laptop-notebookincluded-alpha_rjgebref__F0003.png");
     min-height: 70%;
 }
 
-/* Third image (Contact) */
+/* Third image (Chain) */
 .bgimg-3 {
-    background-image: url("http://adufc.org.br/wp-content/uploads/2018/01/Balot-Box-V2.jpeg");
+    background-image: url("https://martechtoday.com/wp-content/uploads/2018/08/blockchain-link-ss-1920_mhfbwk.jpg");
     min-height: 70%;
 }
 
@@ -58,23 +58,6 @@ body, html {
     background-color: #ddd;
 }
 
-#box1{  
-    background-position: center;
-    background-size: cover;
-    background-image: url("./assets/ue4.jpg");
-}
-
-#box2{
-    background-position: center;
-    background-size: cover;
-    background-image: url("./assets/pic2.jpg");
-}
-
-#box3{
-    background-position: center;
-    background-size: cover;
-    background-image: url("./assets/game.png");
-}
 
 .imgbox{
     flex: 1;
