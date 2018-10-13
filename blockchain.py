@@ -112,6 +112,16 @@ class Blockchain():
                 'nodes': [address] ,
                 'flag': 0
             })
+    def tally_votes(self):
+        votes = {}
+        for block in self.chain:
+            for i in block['transactions']:
+                if i['party'] not in votes:
+                    print('no there ' , i)
+                    votes[i['party']]=1
+                else :
+                    votes[i['party']]+=1
+        return jsonify(votes)
             
 # flask api code here
 
@@ -193,6 +203,10 @@ def register_nodes():
         'total_nodes': list(blockchain.nodes)
     }
     return jsonify(response) , 201
+
+@app.route('/tally', methods=['GET'])
+def tally_votes():
+    return blockchain.tally_votes()
 
 @app.route('/nodes/resolve', methods=['GET'])
 def consensus():
