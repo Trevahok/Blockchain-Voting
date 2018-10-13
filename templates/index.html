@@ -129,8 +129,20 @@
             destination = "http://" + $("#address").val() +":"+ $("#port").val();
             $("#loader").show();
             var source = $("#nodes").val();
-            var object = { "nodes" : [source], "flag": 1};
+            var object = { "nodes" : [destination], "flag": 1};
             console.log(object);
+            $.ajax({
+                type: "POST",
+                url: source + "/nodes/register",
+                contentType: "application/json;charset=UTF-8",
+                data: JSON.stringify(object),
+                success: function(response) {
+                    console.log(response);
+                    $("#response").val(JSON.stringify(response, null, "\t"));
+                    $("#loader").hide();
+                }
+            });
+            object = { "nodes" : [source], "flag": 1};
             $.ajax({
                 type: "POST",
                 url: destination + "/nodes/register",

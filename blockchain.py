@@ -55,17 +55,18 @@ class Blockchain():
     def valid_proof(last_proof, proof):
         guess = f'{last_proof}{proof}'.encode()
         guess_hash = hashlib.sha256(guess).hexdigest()
-        return guess_hash[:4]== '0000'
+        return guess_hash[:5]== '00000'
 
     def register_node(self , address, flag):
         parsed_url = urlparse(address)
         if flag == 1:
             self.trigger_flood_nodes(address)
-        for node in self.nodes:
-            requests.post(url=f'http://{parsed_url.netloc}/nodes/register', json={
-                'nodes': [node],
-                'flag': 0
-            })
+            for node in self.nodes:
+                node = "http://" + node
+                requests.post(url=f'http://{parsed_url.netloc}/nodes/register', json={
+                    'nodes': [node],
+                    'flag': 0
+                })
         self.nodes.add(parsed_url.netloc)
 
     def valid_chain(self , chain):
