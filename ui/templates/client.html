@@ -20,8 +20,8 @@
                 </a>
                 <a href="#home" class="w3-bar-item w3-button w3-ripple w3-text-white w3-hover-teal"><i class="fa fa-home"></i> HOME</a>
                 <a href="#about" class="w3-bar-item w3-button w3-hide-small w3-ripple w3-text-white w3-hover-teal"><i class="fa fa-user"></i> ABOUT</a>
-                <a href="#portfolio" class="w3-bar-item w3-button w3-hide-small w3-ripple w3-text-white w3-hover-teal"><i class="fa fa-th"></i> VOTE</a>
-                <a href="#contact" class="w3-bar-item w3-button w3-hide-small w3-ripple w3-text-white w3-hover-teal"><i class="fa fa-envelope"></i> CHAIN</a>
+                <a href="#portfolio" class="w3-bar-item w3-button w3-hide-small w3-ripple w3-text-white w3-hover-teal"><i class="fa fa-envelope"></i> VOTE</a>
+                <a href="#contact" class="w3-bar-item w3-button w3-hide-small w3-ripple w3-text-white w3-hover-teal"><i class="fa fa-th"></i> CHAIN</a>
             </div>
 
             <!-- Navbar on small screens -->
@@ -229,15 +229,15 @@
                             totalVotes += response[key];
                         });
                         Object.keys(response).forEach(function(key) {
-                            percent = (response[key]/totalVotes*100).toString()+"%";
+                            percent = (response[key]/totalVotes*100).toFixed(2).toString()+"%";
                             console.log(percent);
                             $("#"+key).text(percent);
                             $("#"+key).css("width",percent);
                         });
-                        setTimeout(liveUpdate(), 5000);
+                        setTimeout(liveUpdate(), 10000);
                     },
                     error: function() {
-                        setTimeout(liveUpdate(), 5000);
+                        setTimeout(liveUpdate(), 10000);
                     }
                 });
             }

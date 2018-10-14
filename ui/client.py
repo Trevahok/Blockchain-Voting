@@ -4,7 +4,7 @@ from flask_cors import CORS
 app = Flask(__name__)
 CORS(app)
 
-ip = 'localhost'
+ip = '172.16.40.115'
 port = 5001
 
 @app.route("/")
