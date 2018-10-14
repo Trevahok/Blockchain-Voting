@@ -125,10 +125,17 @@ class Blockchain():
             for i in block['transactions'] :
                 print(i)
                 if i['voter_aid']==str(voter_aid):
-                    return { 'party' : i['party'] }
+                    return { 'message' : i['party'] }
         else:
-            return {'error' : "No vote found"}
-
+            return {'message' : "No vote found"}
+    
+    def redundancy(self,voter_aid):
+        for block in self.chain:
+            for i in block['transactions']:
+                if i['voter_aid'] == str(voter_aid):
+                    return True
+        else:
+            return False
 # flask api code here
 
 app = Flask(__name__)
@@ -175,6 +182,8 @@ def new_transaction():
         return 'missing values' , 400
     if not party_response['valid'] or not aid_response['valid']:
         return 'invalid aadhar id or party', 400
+    if blockchain.redundancy(values['voter_aid']):
+        return jsonify({'message': 'You have already voted.'})
 
     index = blockchain.new_transaction(values['voter_aid'] , values['party'])
     response = {'message' : f'Transaction will be added to Block {index} '}
