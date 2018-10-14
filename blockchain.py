@@ -125,9 +125,9 @@ class Blockchain():
             for i in block['transactions'] :
                 print(i)
                 if i['voter_aid']==str(voter_aid):
-                    return { 'party' : i['party'] }
+                    return { 'message' : i['party'] }
         else:
-            return {'error' : "No vote found"}
+            return {'message' : "No vote found"}
 
 # flask api code here
 
