@@ -43,7 +43,7 @@
         <div class="w3-content w3-container w3-padding-64" id="about">
             <h3 class="w3-center w3-text-teal">ABOUT THE CHAIN</h3>
             <p class="w3-center">Immutable! Secure! Anonymous!</p>
-
+            <br>
             <form class="w3-content w3-container w3-padding-large w3-card-4">
                 <div class="w3-content w3-center">
                     <label>Verify whom you voted for</label><br>
@@ -103,8 +103,16 @@
             <form class="w3-card-4 w3-padding w3-container">
                 <br>
                 <label class="w3-wide">Party:</label>
-                <input class="w3-input w3-border-0 w3-text-white" style="background-color: #454545;" id="party" type="text">
-                <br>
+                <!--<input class="w3-input w3-border-0 w3-text-white" style="background-color: #454545;" id="party" type="text">-->
+                <select class="w3-select w3-border-0 w3-text-white" style="background-color: #454545;" id="party">
+                    <option value="" disabled selected>Whose your vote for?</option>
+                    <option value="bjp">BJP</option>
+                    <option value="admk">ADMK</option>
+                    <option value="dmk">DMK</option>
+                    <option value="ncp">NCP</option>
+                    <option value="dmdk">DMDK</option>
+                  </select>
+                <br><br>
                 <label class="w3-wide">Voter ID:</label>
                 <br>
                 <input class="w3-input w3-border-0 w3-text-white" style="background-color: #454545;" id="voter_aid" type="number">
@@ -210,7 +218,7 @@
                     data: JSON.stringify(object),
                     success: function(response) {
                         console.log(response);
-                        alert(response.message)
+                        alert(response.message);
                     }
                 });
             });
@@ -235,17 +243,14 @@
                             $("#"+key).css("width",percent);
                         });
                         setTimeout(liveUpdate(), 10000);
-                    },
-                    error: function() {
-                        setTimeout(liveUpdate(), 10000);
                     }
                 });
             }
             
             $(document).ready(function()
             {
-                $(".bar").css("width","0%");
-                $(".bar").text("");
+                $(".bar").css("width","5%");
+                $(".bar").text("0%");
                 liveUpdate();
             });
             
