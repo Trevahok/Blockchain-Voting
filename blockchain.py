@@ -217,6 +217,7 @@ def register_nodes():
         'message' : 'new nodes have been added', 
         'total_nodes': list(blockchain.nodes)
     }
+    blockchain.resolve_conflicts()
     return jsonify(response) , 201
 
 @app.route('/tally', methods=['GET'])
