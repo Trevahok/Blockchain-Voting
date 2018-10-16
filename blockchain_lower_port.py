@@ -176,8 +176,8 @@ def full_transactions():
 def new_transaction():
     values = request.get_json()
     required = ['voter_aid', 'party']
-    party_response = requests.get(f"http://localhost:5000/party/{values['party']}").json()
-    aid_response = requests.get(f"http://localhost:5000/aids/{values['voter_aid']}").json()
+    party_response = requests.get("http://localhost:5000/party/"+values['party']).json()
+    aid_response = requests.get("http://localhost:5000/aids/"+values['voter_aid']).json()
     if not all(k in values for k in required):
         return 'missing values' , 400
     if not party_response['valid'] or not aid_response['valid']:
